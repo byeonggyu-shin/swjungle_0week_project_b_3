@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang=ko">
+  <head>
+    <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+            integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+            crossorigin="anonymous">
+
+			  <!-- JS -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+
+        <!-- 구글폰트 -->
+        <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+    <title>Modal</title>
+    <style>
+      * {
+        font-size: 12px;
+      }
+
+      #modal.modal-overlay {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(1.5px);
+        -webkit-backdrop-filter: blur(1.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+      #modal .modal-window {
+        background: rgba(69, 139, 197, 0.7);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        width: 400px;
+        height: 500px;
+        position: relative;
+        top: -100px;
+        padding: 10px;
+      }
+      #modal .title {
+        padding-left: 10px;
+        display: inline;
+        text-shadow: 1px 1px 2px gray;
+        color: white;
+      }
+      #modal .title h2 {
+        display: inline;
+      }
+      #modal .close-area {
+        display: inline;
+        float: right;
+        padding-right: 10px;
+        cursor: pointer;
+        text-shadow: 1px 1px 2px gray;
+        color: white;
+      }
+
+      #modal .content {
+        margin-top: 20px;
+        padding: 0px 10px;
+        text-shadow: 1px 1px 2px gray;
+        color: white;
+      }
+
+      #post-url,
+      #post-comment {
+        border-radius: 5px;
+        width: 90%;
+      }
+
+      #blog-url,
+      #insta-url {
+        border-radius: 5px;
+      }
+
+      .social-profile-link {
+        display: flex;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h2>Lorem Ipsum</h2>
+      <button id="btn-modal">모달 창 열기 버튼</button>
+      <div id="lorem-ipsum"></div>
+    </div>
+    <div id="modal" class="modal-overlay">
+      <div class="modal-window">
+        <div class="title">
+          <h2>Detail Profile</h2>
+        </div>
+        <div class="close-area">X</div>
+        <div class="content">
+          <div class="form-group">
+            <label for="post-url">name</label>
+            <input id="post-url" class="form-control" placeholder="" />
+          </div>
+          <div class="form-group">
+            <label for="post-url">github</label>
+            <input id="post-url" class="form-control" placeholder="" />
+          </div>
+          <div class="form-group">
+            <label for="post-url">email</label>
+            <input id="post-url" class="form-control" placeholder="" />
+          </div>
+          <div class="form-group">
+            <label for="post-comment">about me</label>
+            <textarea
+              id="post-comment"
+              class="form-control"
+              rows="2"
+            ></textarea>
+          </div>
+          <div>
+            <div class="social-profile">
+              <h3>Social Profile</h2>
+              <div class="social-profile-link">
+                <div class="blog-link">
+                  <label for="blog-url">blog link</label>
+                  <input id="blog-url" class="blog-form-control" placeholder="" />
+                </div>
+                <div class="insta-link">
+                  <label for="insta-url">instagram link</label>
+                  <input id="insta-url" class="insta-form-control" placeholder="" />
+                </div>
+              </div>
+          </div>
+          <hr class="my-4">
+          <button type="button" class="btn btn-primary" style="float:right;" onclick="postArticle()">Edit</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      const loremIpsum = document.getElementById("lorem-ipsum");
+      fetch("https://baconipsum.com/api/?type=all-meat&paras=200&format=html")
+        .then((response) => response.text())
+        .then((result) => (loremIpsum.innerHTML = result));
+      const modal = document.getElementById("modal");
+      const btnModal = document.getElementById("btn-modal");
+      btnModal.addEventListener("click", (e) => {
+        modal.style.display = "flex";
+      });
+
+      const closeBtn = modal.querySelector(".close-area");
+      closeBtn.addEventListener("click", (e) => {
+        modal.style.display = "none";
+      });
+
+      modal.addEventListener("click", (e) => {
+        const evTarget = e.target;
+        if (evTarget.classList.contains("modal-overlay")) {
+          modal.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
