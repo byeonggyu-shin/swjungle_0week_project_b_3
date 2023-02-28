@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form action="/jinja_test" method="GET">
+    <p>var1 : <input type="text" name="var1" /></p>
+    <p>var2 : <input type="text" name="var2" /></p>
+    <p><input type="submit" value="submit" /></p>
+  </form>
+  <!-- {% if var1 and var2 %}
+    <p>{{ var1 }}</p>
+    <p>{{ var2 }}</p>
+  {% elif var1 or var2 %}
+    <p>Need to fill out both blank</p>
+  {% else %}
+    <p>No data stored</p>
+  {% endif %} -->
+  {% for var in var1, var2 %}
+    <p>{{ var }}</p>
+  {% endfor %}
+</body>
+</html>
