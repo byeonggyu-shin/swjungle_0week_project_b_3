@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+  function fix_profile() {
+    // 화면에 입력어 있는 제목, 저자, 리뷰 내용을 가져옵니다.
+    let name = $("#name").val();
+
+    // POST /review 에 저장(Create)을 요청합니다.
+    $.ajax({
+        type: "POST",
+        url: "/user/${userId}/fix_profile",
+        data: { name_give : name},
+        success: function (response) {
+            alert(response["msg"]);
+            window.location.reload();
+        }
+    })
+}
+</script>
+</head>
+<body>
+  <div class="container">
+    <h1>정보 수정</h1>
+    <form>
+      <label for="name" id="name">이름</label>
+      <input type="text" name="name">
+      <br>
+      <label for="phone">전화번호</label>
+      <input type="number" name="phone">
+      <br>
+      <label for="github">Github</label>
+      <input type="email" name="github">
+      <br>
+      <label for="email">이메일</label>
+      <input type="email" name="email">
+      <br>
+      <label for="where">사는지역</label>
+      <input type="text" name="where">
+      <br>
+      <label for="about">About me</label>
+      <textarea type="text" name="about"></textarea>
+      <div>
+        
+      </form>
+    </div>
+  </div>
+  
+
+</body>
+</html>
