@@ -1,7 +1,12 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, url_for
+from flask_login import LoginManager, login_user
 from pymongo import MongoClient
 import os
+import hashlib
+import jwt
+import datetime
 from time import time, gmtime
+# from datetime import datetime
 
 app = Flask(__name__)
 
@@ -13,12 +18,10 @@ db = client.team_3
 def home():
     return render_template('index.html')
 
-#로그인
-@app.route('/user/me', methods=['GET', 'POST'])
-def login():
-    userId = request.form('userId')
-    db.userslog.insert_one({'userId':userId}, {'time':gmtime(time())})
-    # return jsonify({'mgs':db.userlog.find({})})
+# 메인 페이지
+@app.route('/main')
+def main():
+    return render_template('mainpage.html')
 
 #회원가입
 @app.route('/user/sign_in', methods=['POST'])
@@ -27,23 +30,49 @@ def signup():
    name = request.form['name']
    userId = request.form['userId']
    pw = request.form['pw']
+   pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
 
+   # 이미 존재하는 아이디면 패스!
    if db.users.find_one({'userId': userId}):
       return jsonify({'result': 'fail', 'msg': '이미 사용 중인 아이디입니다.'})
    elif count == 0: 
         db.users.insert_one({'_id':0, 'userId':userId, 
-                             'password':pw, 'name':name,
+                             'password':pw_hash, 'name':name,
                              'github':'', 'insta':'',
                              'about':'', 'blog':''})    
         count += 1
         
    else:
         db.users.insert_one({'_id':count, 'userId':userId, 
-                             'password':pw, 'name':name,
+                             'password':pw_hash, 'name':name,
                              'github':'', 'insta':'',
                              'about':'', 'blog':''})  
         count += 1
-   return jsonify({'result': 'success'}) 
+   return jsonify({'result': 'success'})
+
+SECRET_KEY = 'secret_key'
+@app.route('/users/me', methods=['POST'])
+def login():
+    # 로그인 처리
+    id_receive = request.form['userId']
+    pw_receive = request.form['pw']
+
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+
+    result = db.users.find_one({ 'userId': id_receive, 'password': pw_hash })
+
+    if result is not None:
+        # JWT 토큰 생성
+        payload = {
+            'userId': id_receive,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=100)
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+
+        # token을 줍니다.
+        return jsonify({'result': 'success', 'token': token})
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
         
 #팀원 전체 조회
 @app.route('/user/get', methods=['GET'])
