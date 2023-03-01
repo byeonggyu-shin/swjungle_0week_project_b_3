@@ -22,29 +22,26 @@ def login():
 
 #회원가입
 @app.route('/user/sign_in', methods=['POST'])
-def signup(userId, pw, name):
-   count = len(db.users.find({}))
+def signup():
+   count = len(list(db.users.find({})))
    name = request.form['name']
    userId = request.form['userId']
    pw = request.form['pw']
+
    if db.users.find_one({'userId': userId}):
       return jsonify({'result': 'fail', 'msg': '이미 사용 중인 아이디입니다.'})
    elif count == 0: 
         db.users.insert_one({'_id':0, 'userId':userId, 
                              'password':pw, 'name':name,
                              'github':'', 'insta':'',
-                             'twitter':'', 'intro':'',
-                             'phone':'', 'where':'',
                              'about':'', 'blog':''})    
         count += 1
         
-    else:
+   else:
         db.users.insert_one({'_id':count, 'userId':userId, 
                              'password':pw, 'name':name,
                              'github':'', 'insta':'',
-                             'twitter':'', 'intro':'',
-                             'phone':'', 'where':'',
-                             'about':'', 'blog':''}) 
+                             'about':'', 'blog':''})  
         count += 1
    return jsonify({'result': 'success'}) 
         
