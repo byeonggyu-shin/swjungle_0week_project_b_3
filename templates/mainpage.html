@@ -36,6 +36,7 @@
       }
       input {
         border: none;
+        font-size: 1.5rem;
         background: transparent;
         background-color: transparent;
       }
@@ -234,6 +235,18 @@
       }
       .edit_btn_container {
         margin-left: auto;
+      }
+      .info_input {
+        width: 100%;
+        height: 2rem;
+        margin: 1rem 0;
+        border-bottom: 3px solid #a8c5d2;
+      }
+      .sns_input {
+        width: auto;
+        height: 2rem;
+        margin: 1rem 0;
+        border-bottom: 3px solid #a8c5d2;
       }
     </style>
     <script>
@@ -451,9 +464,9 @@
                         />
                       </div>
                       <div class="modal_user_detail_info">
-                        <input id="edit_name{{db['_id']}}" value="{{db['name']}}" />
-                        <input id="edit_github{{db['_id']}}" value="{{db['github']}}" />
-                        <input id="edit_email{{db['_id']}}" value="{{db['email']}}" />
+                        <input class="info_input" id="edit_name{{db['_id']}}" value="{{db['name']}}" placeholder="name"/>
+                        <input class="info_input" id="edit_github{{db['_id']}}" value="{{db['github']}}"placeholder="github" />
+                        <input class="info_input" id="edit_email{{db['_id']}}" value="{{db['email']}}" placeholder="email"/>
                       </div>
                     </div>
                     <div class="modal_edit_about_me">
@@ -470,7 +483,7 @@
                             alt="icon"
                             class="icon"
                           />
-                          <input id="edit_blog{{db['_id']}}" value="{{db['blog']}}" />
+                          <input class="sns_input" id="edit_blog{{db['_id']}}" value="{{db['blog']}}" />
                         </div>
                         <div>
                           <img
@@ -478,7 +491,7 @@
                             alt="image"
                             class="icon"
                           />
-                          <input id="edit_insta{{db['_id']}}" value="{{db['insta']}}" />
+                          <input class="sns_input" id="edit_insta{{db['_id']}}" value="{{db['insta']}}" />
                         </div>
                       </div>
                     </div>
