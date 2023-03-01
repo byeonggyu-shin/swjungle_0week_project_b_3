@@ -307,6 +307,91 @@
         //   },
         // });
       }
+
+      function searchInfo() {
+        let inputInfo = $('#searchInput').val();
+        console.log(inputInfo)
+
+        $.ajax({
+          type: 'POST',
+          url: '/a_get',
+          data: { name: inputInfo},
+          success: function(response) {
+            alert("ajax success")
+            showSearchInfo()
+          }
+        })
+      }
+
+      function showSearchInfo() {
+        $.ajax({
+          type: 'GET',
+          url: '/get',
+          data: {},
+          success: function(response) {
+            let users = response["users"]
+            makeProfile(users['name'], users['github'], users['about'], users['blog'], users['insta'])
+          }
+        })
+      }
+
+      function makeProfile(name, github, about, blog, insta) {
+        let temp_html = `<div id="detail_modal_window">
+          <div class="modal_window">
+            <button class="modal_close_btn" onclick="handleModalClose()">
+              X
+            </button>
+            <div class="modal_contant">
+              <div class="modal_title">Detail Profile</div>
+              <div class="modal_user_info">
+                <div class="modal_detail_info">
+                  <div>
+                    <img
+                      class="modal_profile_img"
+                      src="{{ url_for('static',
+                  filename='icons-profile.png') }}"
+                      alt="image"
+                    />
+                  </div>
+                  <div class="modal_user_detail_info">
+                    <div>${name}</div>
+                    <div>${gitthub}</div>
+                    <div>email</div>
+                  </div>
+                </div>
+                <div class="modal_about_me">${about}</div>
+                <div class="modal_social_profile">
+                  <div>Social Profile</div>
+                  <div class="modal_sns_link">
+                    <div>
+                      <img
+                        src="{{ url_for('static', filename='blogger.svg') }}"
+                        alt="icon"
+                        class="icon"
+                      />
+                      ${Blog}
+                    </div>
+                    <div>
+                      <img
+                        src="{{ url_for('static', filename='square-instagram.svg') }}"
+                        alt="image"
+                        class="icon"
+                      />${Instagram}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="hidden_option" id="modal_editmod_btn"> -->
+            <div id="modal_editmod_btn">
+              <button class="modal_edit_btn" onclick="handleEditBtn()">
+                EDIT
+              </button>
+            </div>
+          </div>
+        </div>`;
+        $("#detail_modal_window").show(temp_html)
+      }
     </script>
   </head>
   <body>
@@ -447,9 +532,11 @@
         />
         <input
           class="search_input"
+          id="searchInput"
           type="text"
           placeholder="Searching for jungle 6th"
         />
+        <button type="button" onclick="searchInfo()"></button>
       </div>
 
       <div class="card_container">

@@ -90,5 +90,16 @@ def update(userId, name, github, email, about, blog, insta):
 def hello(id):
     db.users.delete_one({'id':id})
 
+@app.route('/a_get', methods=['GET', 'POST'])
+def search_profile():
+    name_receive = request.form['name']
+    result = db.users.find_one({'name': name_receive})
+    return jsonify({'result': 'success', 'users': result })
+
+# @app.route('/get', methods=['GET'])
+# def read_profile():
+#     result = list(db.users.find({}, {'_id': 0}))
+#     return jsonify({'result': 'success', 'users': result})
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

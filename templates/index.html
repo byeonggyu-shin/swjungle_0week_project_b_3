@@ -183,7 +183,7 @@
         if (user_PW === user_PWcheck) {
           $.ajax({
             type: "POST",
-            url: "/user/sign_in",
+            url: "/register",
             data: { name: user_name, userId: user_ID, pw: user_PW },
             success: function (response) {
               if (response["result"] == "success") {
