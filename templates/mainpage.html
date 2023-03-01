@@ -223,6 +223,24 @@
         console.log("모달 닫기 클릭");
         document.getElementById("profile_modal").className = "hidden_option";
       }
+
+      function hello() {
+        $.ajax({
+          type: "GET",
+          url: "/users/isAuth",
+          data: {},
+          success: function(response) {
+            if (response['result'] == 'success') {
+              // 로그인한 사용자면 닉네임을 보여주는 알람을 띄움!
+              let name = response['name']
+              alert(`반갑습니다 ${name}님!!!`)
+            } else {
+              alert(response['msg'])
+              window.location.href = '/'
+            }
+          }
+        })
+      }
     </script>
   </head>
   <body>

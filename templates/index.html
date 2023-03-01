@@ -151,15 +151,61 @@
             console.log(response)
             if (response["result"] == "success") {
               // 로그인에 성공하면 token을 쿠키에 저장!!!
-              $.cookie('mytoken', response['token'])
+              // localStorage.setitem('key', response)
+              $.cookie({'mytoken': response['token'], 'key': response['userId']})
+              // $.cookie('key', response['userId'])
               alert("로그인 완료");
-              window.location.href = "/"
+              window.location.href = "/main"
+              // hello()
             } else {
               alert(response['msg']);
             }
           },
         });
       }
+
+      function hello() {
+        $.ajax({
+          type: "GET",
+          url: "/users/isAuth",
+          data: {},
+          success: function(response) {
+            if (response['result'] == 'success') {
+              // 로그인한 사용자면 닉네임을 보여주는 알람을 띄움!
+              let name = response['name']
+              alert(`반갑습니다 ${name}님!!!`)
+            } else {
+              alert(response['msg'])
+              window.location.href = '/'
+            }
+          }
+        })
+      }
+
+      // function handleLoginBtn() {
+      //   console.log("로그인 버튼 클릭");
+
+      //   let user_ID = $("#login_user_ID").val();
+      //   let user_PW = $("#login_user_PW").val();
+      //   console.log(user_ID)
+
+      //   $.ajax({
+      //     type: "POST",
+      //     url: "/users/me",
+      //     data: { userId: user_ID, pw: user_PW },
+      //     success: function (response) {
+      //       console.log(response)
+      //       if (response["result"] == "success") {
+      //         // 로그인에 성공하면 token을 쿠키에 저장!!!
+      //         $.cookie('mytoken', response['token'])
+      //         alert("로그인 완료");
+      //         window.location.href = "/"
+      //       } else {
+      //         alert(response['msg']);
+      //       }
+      //     },
+      //   });
+      // }
 
       function handleSignUpBtn() {
         console.log("회원가입 버튼 클릭");
@@ -260,6 +306,7 @@
             <button class="cancle_button" onclick="handleCancleBtn()">
               Cancel
             </button>
+            <button class="asdf" onclick="hello()">asdf</button>
           </div>
         </div>
       </div>
