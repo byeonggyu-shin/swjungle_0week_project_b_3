@@ -63,7 +63,10 @@
         justify-content: center;
       }
       #login_container {
-        /* margin-bottom: rem; */
+        width: 75%;
+      }
+      #signup_container {
+        width: 75%;
       }
       .login_title {
         font-size: 2rem;
@@ -123,19 +126,38 @@
         let user_name = $("#user_name").val();
         let user_ID = $("#user_ID").val();
         let user_PW = $("#user_PW").val();
+        let user_PWcheck = $("#user_PWcheck").val();
 
-        $.ajax({
-          type: "POST",
-          url: "/user/sign_in",
-          data: { name: user_name, userId: user_ID, pw: user_PW },
-          success: function (response) {
-            if (response["result"] == "success") {
-              alert("회원가입 완료");
-            } else {
-              alert("서버 오류!");
-            }
-          },
-        });
+        if (user_name.length === 0) {
+          return alert("이름을 입력해 주세요");
+        }
+        if (user_ID.length === 0) {
+          return alert("아이디를 입력해 주세요");
+        } else if (user_ID.length < 4 || user_ID.length > 8) {
+          return alert("아이디는 4글자 이상 8글자 이하로 입력해 주세요");
+        }
+        if (user_PW.length === 0) {
+          return alert("비밀번호를 입력해 주세요");
+        } else if (user_PW.length < 4 || user_PW.length > 8) {
+          return alert("비밀번호는 4글자 이상 8글자 이하로 입력해 주세요");
+        }
+        if (user_PW === user_PWcheck) {
+          $.ajax({
+            type: "POST",
+            url: "/user/sign_in",
+            data: { name: user_name, userId: user_ID, pw: user_PW },
+            success: function (response) {
+              if (response["result"] == "success") {
+                alert("회원가입 완료");
+                handleCancleBtn();
+              } else {
+                alert("서버 오류!");
+              }
+            },
+          });
+        } else {
+          return alert("비밀번호가 일치하지 않습니다.");
+        }
       }
     </script>
   </head>
@@ -183,7 +205,7 @@
             <div>Password</div>
             <input class="login_input" type="password" id="user_PW" />
             <div>Password Check</div>
-            <input class="login_input" type="password" />
+            <input class="login_input" type="password" id="user_PWcheck" />
           </form>
           <div class="button_container">
             <button
