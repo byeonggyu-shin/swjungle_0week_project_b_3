@@ -18,6 +18,9 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
     />
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
     <title>Searching for jungle 6th</title>
     <style>
       * {
@@ -126,6 +129,23 @@
       }
       function handleSignUpBtn() {
         console.log("회원가입 버튼 클릭");
+
+        let user_name = $("#user_name").val();
+        let user_ID = $("#user_ID").val();
+        let user_PW = $("#user_PW").val();
+
+        $.ajax({
+          type: "POST",
+          url: "/user/sign_in",
+          data: { name: user_name, userId: user_ID, pw: user_PW },
+          success: function (response) {
+            if (response["result"] == "success") {
+              alert("회원가입 완료");
+            } else {
+              alert("서버 오류!");
+            }
+          },
+        });
       }
 
       // function sign_up() {
@@ -207,10 +227,18 @@
           <!-- <div class="signup_from hidden_option"> -->
           <div class="login_title">Welcome To Jungle</div>
           <form class="login_form" id="signupForm">
+            <div>UserName</div>
+            <input class="login_input" type="text" id="user_name" />
             <div>ID</div>
+<<<<<<< HEAD
             <input id="signup-id" class="login_input" type="text" />
             <div>Password</div>
             <input id="signup-pw" class="login_input" type="password" />
+=======
+            <input class="login_input" type="text" id="user_ID" />
+            <div>Password</div>
+            <input class="login_input" type="password" id="user_PW" />
+>>>>>>> 6bba26f50471c8e323b3e7a2553a5317f32199bf
             <div>Password Check</div>
             <input id="signup-pwc" class="login_input" type="password" />
           </form>
