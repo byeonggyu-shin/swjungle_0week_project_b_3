@@ -293,9 +293,9 @@
         />
       </div>
 
-      <div class="card_container" onclick="handleModalOpen()">
+      <div class="card_container">
         {% for db in db_all %}
-        <div class="user_card">
+        <div class="user_card" onclick="handleModalOpen()">
           <img
             class="profile_img"
             src="{{ url_for('static', filename='icons-profile.png') }}"
