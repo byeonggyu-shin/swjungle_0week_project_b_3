@@ -293,19 +293,19 @@
         if (user_name.length === 0) {
           return alert("이름을 입력해 주세요");
         }
-        $.ajax({
-          type: "POST",
-          url: "/user/<userId>/fix_profile",
-          data: { userId: ,name: user_name, github: user_github, email: user_email, about: user_about_me, blog: user_blog, insta: user_insta},
-          success: function (response) {
-            if (response["result"] == "success") {
-              alert("회원 정보 수정 완료");
-              handleEditCancleBtn();
-            } else {
-              alert(response["msg"]);
-            }
-          },
-        });
+        // $.ajax({
+        //   type: "POST",
+        //   url: "/user/<userId>/fix_profile",
+        //   data: { userId: ,name: user_name, github: user_github, email: user_email, about: user_about_me, blog: user_blog, insta: user_insta},
+        //   success: function (response) {
+        //     if (response["result"] == "success") {
+        //       alert("회원 정보 수정 완료");
+        //       handleEditCancleBtn();
+        //     } else {
+        //       alert(response["msg"]);
+        //     }
+        //   },
+        // });
       }
     </script>
   </head>

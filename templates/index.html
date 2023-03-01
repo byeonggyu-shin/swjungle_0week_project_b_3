@@ -141,21 +141,19 @@
 
         let user_ID = $("#login_user_ID").val();
         let user_PW = $("#login_user_PW").val();
-        console.log(user_ID)
+        console.log(user_ID);
 
         $.ajax({
           type: "POST",
-          url: "/users/me",
+          url: "/login",
           data: { userId: user_ID, pw: user_PW },
           success: function (response) {
-            console.log(response)
+            console.log(response);
             if (response["result"] == "success") {
-              // 로그인에 성공하면 token을 쿠키에 저장!!!
-              $.cookie('mytoken', response['token'])
-              alert("로그인 완료");
-              window.location.href = "/"
+              // 로그인에 성공하면 리다이렉트
+              window.location.href = "/mainpage";
             } else {
-              alert(response['msg']);
+              alert(response["msg"]);
             }
           },
         });
@@ -215,18 +213,13 @@
         <div class="login_container" id="login_container">
           <div class="login_title">Welcome To Jungle</div>
           <form class="login_form" id="loginForm">
-            <div>ID</div>
+            <label for="userId">ID</label>
             <input class="login_input" type="text" id="login_user_ID" />
-            <div>Password</div>
+            <label for="pw">Password</label>
             <input class="login_input" type="password" id="login_user_PW" />
           </form>
           <div class="button_container">
-            <button
-              class="login_button"
-              onclick="handleLoginBtn()"
-              type="submit"
-              form="loginForm"
-            >
+            <button class="login_button" onclick="handleLoginBtn()">
               Log in
             </button>
             <button class="signup_button" onclick="handleSignUpModeBtn()">
