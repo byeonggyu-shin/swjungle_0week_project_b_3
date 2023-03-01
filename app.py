@@ -1,8 +1,5 @@
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
-from dotenv import load_dotenv
-import os
-from time import time, gmtime
 
 app = Flask(__name__)
 
@@ -15,10 +12,10 @@ db = client.team_3
 def home():
     return render_template('index.html')
 
-# 메인페이지 
-@app.route('/main')
-def home():
-
+# # 메인페이지 
+# @app.route('/main')
+# def mainpage():
+#     return render_template('mainpage.html')
 #로그인
 @app.route('/users/me', methods=['GET', 'POST'])
 def login(userId):
@@ -27,26 +24,31 @@ def login(userId):
 
 #회원가입
 @app.route('/user/sign_in', methods=['POST'])
-def signup(userId, pw, name):
-    count = len(db.users.find({}))
-    if count == 0:
-        db.users.insert_one({'_id':0}, {'userId':userId}, 
-                             {'password':pw}, {'name':name},
-                             {'github':''}, {'insta':''},
-                             {'twitter':''}, {'intro':''},
-                             {'phone':''}, {'where':''},
-                             {'about':''}, {'blog':''})    
+# def signup(userId,pw,name):
+def signup():
+   count = len(list(db.users.find({})))
+   name = request.form['name']
+   userId = request.form['userId']
+   pw = request.form['pw']
+
+   if count == 0: 
+        db.users.insert_one({'_id':0, 'userId':userId, 
+                             'password':pw, 'name':name,
+                             'github':'', 'insta':'',
+                             'twitter':'', 'intro':'',
+                             'phone':'', 'where':'',
+                             'about':'', 'blog':''})    
         count += 1
         
-    else:
-        db.users.insert_one({'_id':count}, {'userId':userId}, 
-                             {'password':pw}, {'name':name},
-                             {'github':''}, {'insta':''},
-                             {'twitter':''}, {'intro':''},
-                             {'phone':''}, {'where':''},
-                             {'about':''}, {'blog':''}) 
+   else:
+        db.users.insert_one({'_id':count, 'userId':userId, 
+                             'password':pw, 'name':name,
+                             'github':'', 'insta':'',
+                             'twitter':'', 'intro':'',
+                             'phone':'', 'where':'',
+                             'about':'', 'blog':''})  
         count += 1
-        
+   return jsonify({'result': 'success'}) 
 #팀원 전체 조회
 @app.route('/user/get', methods=['GET'])
 def get_all(name=None):
