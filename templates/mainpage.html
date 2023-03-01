@@ -227,41 +227,45 @@
   </head>
   <body>
     <!--detail profile modal -->
-    <div class="modal_container hidden_option" id="profile_modal">
-      <div class="modal_window">
-        <button class="modal_close_btn" onclick="handleModalClose()">X</button>
-        <div class="modal_contant">
-          <div class="modal_title">Detail Profile</div>
-          <div class="modal_user_info">
-            <div class="modal_detail_info">
-              <div>
-                <img class="modal_profile_img" src="icons-profile.png" />
-              </div>
-              <div class="modal_user_detail_info">
-                <div>name</div>
-                <div>gitthub</div>
-                <div>email</div>
-              </div>
-            </div>
-            <div class="modal_about_me">about me</div>
-            <div class="modal_social_profile">
-              <div>Social Profile</div>
-              <div class="modal_sns_link">
+    <div class="hidden_option" id="profile_modal">
+      <div class="modal_container">
+        <div class="modal_window">
+          <button class="modal_close_btn" onclick="handleModalClose()">
+            X
+          </button>
+          <div class="modal_contant">
+            <div class="modal_title">Detail Profile</div>
+            <div class="modal_user_info">
+              <div class="modal_detail_info">
                 <div>
-                  <img src="./blogger.svg" alt="icon" class="icon" /> Blog
+                  <img class="modal_profile_img" src="icons-profile.png" />
                 </div>
-                <div>
-                  <img
-                    src="./square-instagram.svg"
-                    alt="icon"
-                    class="icon"
-                  />Instagram Link
+                <div class="modal_user_detail_info">
+                  <div>name</div>
+                  <div>gitthub</div>
+                  <div>email</div>
+                </div>
+              </div>
+              <div class="modal_about_me">about me</div>
+              <div class="modal_social_profile">
+                <div>Social Profile</div>
+                <div class="modal_sns_link">
+                  <div>
+                    <img src="./blogger.svg" alt="icon" class="icon" /> Blog
+                  </div>
+                  <div>
+                    <img
+                      src="./square-instagram.svg"
+                      alt="icon"
+                      class="icon"
+                    />Instagram Link
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <button class="modal_edit_btn">EDIT</button>
         </div>
-        <button class="modal_edit_btn">EDIT</button>
       </div>
     </div>
     <!-- mainpage -->
