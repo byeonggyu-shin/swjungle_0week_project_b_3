@@ -266,7 +266,7 @@
           .classList.remove("hidden_option");
       }
 
-      function handleEditCancleBtn() {
+      function handleEditCancleBtn(idx) {
         console.log("취소 버튼 클릭");
         document.getElementById(`edit${idx}`).className =
           "hidden_option";
@@ -294,7 +294,7 @@
           success: function (response) {
             if (response["result"] == "success") {
               alert("회원 정보 수정 완료");
-  
+              location.reload();
             } else {
               alert(response["msg"]);
             }
@@ -487,7 +487,7 @@
                 <div class="edit_btn_container">
                   <button
                     class="modal_edit_btn"
-                    onclick="handleEditCancleBtn()"
+                    onclick="handleEditCancleBtn('{{db['_id']}}')"
                   >
                     Cancel
                   </button>

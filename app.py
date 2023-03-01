@@ -75,7 +75,7 @@ def get_sub(_id):
 @app.route('/useinfo/edit', methods=['POST'])
 def update():
 
-    id = request.form['userId']
+    id = int(request.form['userId'])
     name = request.form['name']
     github = request.form['github']
     email = request.form['email']
@@ -83,9 +83,6 @@ def update():
     blog = request.form['blog']
     insta = request.form['insta']
 
-    print(id)
-    print(name)
-    print(insta)
     db.users.update_one({'_id': id}, {'$set': {'name':name,
                                           'github':github,
                                           'email':email,
@@ -93,6 +90,7 @@ def update():
                                           'blog':blog,
                                           'insta':insta}}
                                           )
+    
     return jsonify({'result': 'success'}) 
 #프로필 삭제
 @app.route('/user/delete', methods=['POST'])
