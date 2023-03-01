@@ -1,32 +1,21 @@
-# from flask import Flask, render_template, jsonify, request
-# from pymongo import MongoClient
-# from dotenv import load_dotenv
-# import os
-# from time import time, gmtime
-
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
-
-from flask import Flask, render_template, jsonify, request
-from pymongo import MongoClient
-from dotenv import load_dotenv
-import os
-from time import time, gmtime
 
 app = Flask(__name__)
 
-client = MongoClient('localhost', 27017)
+#Atlas DB 접속
+client = MongoClient('localhost', 27017) 
 db = client.team_3
 
-#Atlas DB 접속
-# client = MongoClient('localhost', 27017) 
-# db = client.team_3
-
-app = Flask(__name__, template_folder="templates")
-
-# 로그인 페이지
+#로그인 페이지
 @app.route('/')
 def home():
     return render_template('index.html')
+
+# 메인 페이지
+@app.route('/main')
+def main():
+    return render_template('mainpage.html')
 
 # # 메인페이지 
 # @app.route('/main')
@@ -38,28 +27,64 @@ def home():
 #     if request.method == 'POST':
 #         db.userslog.insert_one({'userId':userId}, {'time':gmtime(time())})
 
+# 로그인 페이지
+@app.route('/users/me', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        # 로그인 처리
+        id_receive = request.form['id_give']
+        pw_receive = request.form['pw_give']
+        result = db.users.find_one({ 'userId': id_receive, 'password': pw_receive })
+        if id_receive == result['userId'] and pw_receive == result['password']:
+            # 로그인 성공 시 메인 페이지로 리다이렉트
+            # return jsonify({'result': 'success'})
+            return redirect(url_for('login'))
+        else:
+            # 로그인 실패 시 다시 로그인 페이지로 이동
+            return redirect(url_for('login'))
+    else:
+        return '''
+            <form class="login_form" id="signupForm">
+                <div>UserName</div>
+                <input class="login_input" type="text"  id="user_name" />
+                <div>ID</div>
+                <input class="login_input" type="text"  id="user_ID" />
+                <div>Password</div>
+                <input class="login_input"  type="password" id="user_PW" />
+                <div>Password Check</div>
+                <input class="login_input"  type="password" />
+          </form>
+        '''
+
+
 #회원가입
 @app.route('/user/sign_in', methods=['POST'])
-def signup(userId, pw, name):
-    count = len(db.users.find({}))
-    if count == 0:
-        db.users.insert_one({'_id':0}, {'userId':userId}, 
-                             {'password':pw}, {'name':name},
-                             {'github':''}, {'insta':''},
-                             {'twitter':''}, {'intro':''},
-                             {'phone':''}, {'where':''},
-                             {'about':''}, {'blog':''})    
+# def signup(userId,pw,name):
+def signup():
+   count = len(list(db.users.find({})))
+   name = request.form['name']
+   userId = request.form['userId']
+   pw = request.form['pw']
+
+   if count == 0: 
+        db.users.insert_one({'_id':0, 'userId':userId, 
+                             'password':pw, 'name':name,
+                             'github':'', 'insta':'',
+                             'twitter':'', 'intro':'',
+                             'phone':'', 'where':'',
+                             'about':'', 'blog':''})    
         count += 1
         
-    else:
-        db.users.insert_one({'_id':count}, {'userId':userId}, 
-                             {'password':pw}, {'name':name},
-                             {'github':''}, {'insta':''},
-                             {'twitter':''}, {'intro':''},
-                             {'phone':''}, {'where':''},
-                             {'about':''}, {'blog':''}) 
+   else:
+        db.users.insert_one({'_id':count, 'userId':userId, 
+                             'password':pw, 'name':name,
+                             'github':'', 'insta':'',
+                             'twitter':'', 'intro':'',
+                             'phone':'', 'where':'',
+                             'about':'', 'blog':''})  
         count += 1
-        
+   return jsonify({'result': 'success'}) 
+ 
 #팀원 전체 조회
 @app.route('/user/get', methods=['GET'])
 def get_all(name=None):
