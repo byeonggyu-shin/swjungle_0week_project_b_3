@@ -10,13 +10,6 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
     />
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
-      integrity="sha384-9aItKEdE9qg3lJwT0T7CJVgEwpHN/tZ6Up/+JHHmkzJQxAO2WOcRPfY0Uk1N7U5u"
-      crossorigin="anonymous"
-    />
 
     <title>Searching for jungle 6th</title>
     <style>
@@ -145,8 +138,6 @@
         background-color: #718088bd;
         width: 100vw;
         height: 100vh;
-
-        display: none;
       }
       .modal_window {
         position: fixed;
@@ -155,39 +146,125 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: 35%;
-        height: 60%;
+        height: auto;
         background-color: white;
         border-radius: 2rem;
-        padding: 1rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem 1.5rem 1.5rem 1.5rem;
       }
+
+      .modal_close_btn {
+        margin-left: auto;
+        background-color: transparent;
+        color: black;
+        font-size: 1.5rem;
+        padding: 0.3rem 0 0 0;
+      }
+      .modal_contant {
+        padding: 0 2.5rem;
+        display: flex;
+        flex-direction: column;
+      }
+
       .modal_title {
+        text-align: left;
+        font-size: 2rem;
       }
       .modal_user_info {
       }
+      .modal_detail_info {
+        display: flex;
+        flex-direction: row;
+      }
+      .modal_profile_img {
+        width: 200px;
+        height: 200px;
+        padding: 1.5rem;
+        margin-right: 2.5rem;
+      }
+      .modal_user_detail_info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+      }
+      .modal_about_me {
+        height: 8rem;
+      }
       .modal_social_profile {
       }
+
+      .modal_sns_link {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+        margin: 1rem 0;
+      }
+      .modal_icon {
+        width: 25px;
+        height: 25px;
+        text-align: ;
+      }
       .modal_edit_btn {
+        margin-left: auto;
+      }
+      .hidden_option {
+        display: none;
       }
     </style>
+    <script>
+      function handleModalOpen() {
+        console.log("모달 열기 클릭");
+        document
+          .getElementById("profile_modal")
+          .classList.remove("hidden_option");
+      }
+      function handleModalClose() {
+        console.log("모달 닫기 클릭");
+        document.getElementById("profile_modal").className = "hidden_option";
+      }
+    </script>
   </head>
   <body>
-    <div class="modal_container">
+    <!--detail profile modal -->
+    <div class="modal_container hidden_option" id="profile_modal">
       <div class="modal_window">
-        <h3 class="modal_title">Detail Profile</h3>
-        <div class="modal_user_info">
-          <div>name</div>
-          <div>gitthub</div>
-          <div>email</div>
-          <div>about me</div>
-          <div class="modal_social_profile">
-            Social Profile
-            <div>Blog</div>
-            <div>Instagram Link</div>
+        <button class="modal_close_btn" onclick="handleModalClose()">X</button>
+        <div class="modal_contant">
+          <div class="modal_title">Detail Profile</div>
+          <div class="modal_user_info">
+            <div class="modal_detail_info">
+              <div>
+                <img class="modal_profile_img" src="icons-profile.png" />
+              </div>
+              <div class="modal_user_detail_info">
+                <div>name</div>
+                <div>gitthub</div>
+                <div>email</div>
+              </div>
+            </div>
+            <div class="modal_about_me">about me</div>
+            <div class="modal_social_profile">
+              <div>Social Profile</div>
+              <div class="modal_sns_link">
+                <div>
+                  <img src="./blogger.svg" alt="icon" class="icon" /> Blog
+                </div>
+                <div>
+                  <img
+                    src="./square-instagram.svg"
+                    alt="icon"
+                    class="icon"
+                  />Instagram Link
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <button class="modal_edit_btn">EDIT</button>
       </div>
     </div>
+    <!-- mainpage -->
     <div class="container">
       <div class="search_area">
         <img src="magnifying-glass-solid.svg" alt="icon" class="mag_Icon" />
@@ -198,7 +275,7 @@
         />
       </div>
 
-      <div class="card_container">
+      <div class="card_container" onclick="handleModalOpen()">
         <div class="user_card">
           <img class="profile_img" src="./icons-profile.png" />
           <div class="profile_name">name</div>
