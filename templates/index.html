@@ -184,7 +184,7 @@
           $.ajax({
             type: "POST",
             url: "/register",
-            data: { name: user_name, userId: user_ID, pw: user_PW },
+            data: { 'name': user_name, 'userId': user_ID, 'pw': user_PW },
             success: function (response) {
               if (response["result"] == "success") {
                 alert("회원가입 완료");
