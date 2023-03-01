@@ -210,7 +210,7 @@
         height: 25px;
         text-align: ;
       }
-      #modal_editmod_btn {
+      .modal_editmod_btn {
         margin-left: auto;
       }
       .modal_edit_btn {
@@ -250,6 +250,11 @@
       }
     </style>
     <script>
+       $(document).ready(function () {
+       document.getElementById(localStorage.getItem("userId")).classList.remove("hidden_option");
+      });
+
+
       function handleModalOpen(idx) {
         console.log("모달 열기 클릭");
         document.getElementById(`profile_modal${idx}`).classList.remove("hidden_option");
@@ -315,19 +320,7 @@
         });
       }
 
-      // function reload() {
-      //   $.ajax({
-      //     type: "GET",
-      //     url: "/mainpage",,
-      //     success: function (response) {
-      //       if (response["result"] == "success") {
-      //         window.location.href = "/mainpage";
-      //       } else {
-      //         alert(response["msg"]);
-      //       }
-      //     },
-      //   });
-      // }
+      
     </script>
   </head>
   <body>
@@ -435,10 +428,13 @@
                   </div>
                 </div>
                 <!-- <div class="hidden_option" id="modal_editmod_btn"> -->
-                <div id="modal_editmod_btn">
-                  <button class="modal_edit_btn" onclick="handleEditBtn('{{db['_id']}}')">
-                    EDIT
-                  </button>
+                
+                  <div class="modal_editmod_btn" >
+                    <div class="hidden_option" id="{{db['userId']}}">
+                      <button class="modal_edit_btn" onclick="handleEditBtn('{{db['_id']}}')">
+                        EDIT
+                      </button>
+                  </div>
                 </div>
               </div>
             </div>
