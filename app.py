@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
 import os
 from time import time, gmtime
@@ -19,6 +19,35 @@ def login():
     userId = request.form('userId')
     db.userslog.insert_one({'userId':userId}, {'time':gmtime(time())})
     # return jsonify({'mgs':db.userlog.find({})})
+
+# 로그인 페이지
+@app.route('/users/me', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        # 로그인 처리
+        id_receive = request.form['id_give']
+        pw_receive = request.form['pw_give']
+        result = db.users.find_one({ 'userId': id_receive, 'password': pw_receive })
+        if id_receive == result['userId'] and pw_receive == result['password']:
+            # 로그인 성공 시 메인 페이지로 리다이렉트
+            # return jsonify({'result': 'success'})
+            return jsonify({'result': 'success'}) 
+        else:
+            # 로그인 실패 시 다시 로그인 페이지로 이동
+            return redirect(url_for('login'))
+    else:
+        return '''
+            <form class="login_form" id="signupForm">
+                <div>UserName</div>
+                <input class="login_input" type="text"  id="user_name" />
+                <div>ID</div>
+                <input class="login_input" type="text"  id="user_ID" />
+                <div>Password</div>
+                <input class="login_input"  type="password" id="user_PW" />
+                <div>Password Check</div>
+                <input class="login_input"  type="password" />
+          </form>
+        '''
 
 #회원가입
 @app.route('/user/sign_in', methods=['POST'])

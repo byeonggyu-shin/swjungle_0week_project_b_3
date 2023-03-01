@@ -117,15 +117,36 @@
           .classList.remove("hidden_option");
       }
 
+      // function handleLoginBtn() {
+      //   console.log("로그인 버튼 클릭");
+      //   let userId = $("#userId").val();
+      //   $.ajax({
+      //     type: "GET", // 왜 그런지는 모르겠으나 요청타입이 "GET"이고
+      //     url: "/", // url이 "/"일 때만 페이지 리다이렉트가 된다.
+      //     data: { userId: userId },
+      //     success: function (response) {
+      //       window.location.href = "/user/get";
+      //     },
+      //   });
+      // }
+
       function handleLoginBtn() {
         console.log("로그인 버튼 클릭");
-        let userId = $("#userId").val();
+
+        let user_ID = $("#login_user_ID").val();
+        let user_PW = $("#login_user_PW").val();
+
         $.ajax({
-          type: "GET", // 왜 그런지는 모르겠으나 요청타입이 "GET"이고
-          url: "/", // url이 "/"일 때만 페이지 리다이렉트가 된다.
-          data: { userId: userId },
+          type: "POST",
+          url: "/users/me",
+          data: { id_give: user_ID, pw_give: user_PW },
           success: function (response) {
-            window.location.href = "/user/get";
+            if (response["result"] == "success") {
+              alert("로그인 완료");
+              window.location.href = "/user/get";
+            } else {
+              alert("서버 오류!");
+            }
           },
         });
       }
