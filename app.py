@@ -10,9 +10,14 @@ app = Flask(__name__)
 client = MongoClient('localhost', 27017) 
 db = client.team_3
 
+# 로그인 페이지
 @app.route('/')
 def home():
     return render_template('index.html')
+
+# 메인페이지 
+@app.route('/main')
+def home():
 
 #로그인
 @app.route('/users/me', methods=['GET', 'POST'])
