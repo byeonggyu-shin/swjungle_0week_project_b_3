@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
+from time import time, gmtime
 
 #Atlas DB 접속
 client = MongoClient('localhost', 27017) 
@@ -13,8 +14,9 @@ def home():
 
 #로그인
 @app.route('/users/me', methods=['GET', 'POST'])
-def loginlog(userId, time):
-    db.userslog.insert_one({'userId':userId}, {'time':time})
+def login(userId):
+    if request.method == 'POST':
+        db.userslog.insert_one({'userId':userId}, {'time':gmtime(time())})
 
 #회원가입
 @app.route('/user/sign_in', methods=['POST'])
@@ -59,10 +61,10 @@ def update(userId, name, phone, github, email,
                                           'about':about,
                                           'blog':blog,
                                           'insta':insta}})
-    response = request.form({'userId':userId})
-    return jsonify(response)
 #프로필 삭제
 @app.route('/user/delete', methods=['POST'])
 def hello(id):
     db.users.delete_one({'id':id})
 
+if __name__ == '__main__':
+    app.run('0.0.0.0', port=5000, debug=True)
