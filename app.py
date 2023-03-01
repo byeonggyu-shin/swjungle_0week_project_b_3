@@ -31,7 +31,9 @@ def signup():
    userId = request.form['userId']
    pw = request.form['pw']
 
-   if count == 0: 
+   if db.users.find_one({'userId': userId}):
+      return jsonify({'result': 'fail', 'msg': '이미 사용 중인 아이디입니다.'})
+   elif count == 0: 
         db.users.insert_one({'_id':0, 'userId':userId, 
                              'password':pw, 'name':name,
                              'github':'', 'insta':'',
