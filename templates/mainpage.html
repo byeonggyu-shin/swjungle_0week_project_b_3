@@ -238,7 +238,12 @@
             <div class="modal_user_info">
               <div class="modal_detail_info">
                 <div>
-                  <img class="modal_profile_img" src="icons-profile.png" />
+                  <img
+                    class="modal_profile_img"
+                    src="{{ url_for('static',
+                  filename='icons-profile.png') }}"
+                    alt="image"
+                  />
                 </div>
                 <div class="modal_user_detail_info">
                   <div>name</div>
@@ -251,12 +256,17 @@
                 <div>Social Profile</div>
                 <div class="modal_sns_link">
                   <div>
-                    <img src="./blogger.svg" alt="icon" class="icon" /> Blog
+                    <img
+                      src="{{ url_for('static', filename='blogger.svg') }}"
+                      alt="icon"
+                      class="icon"
+                    />
+                    Blog
                   </div>
                   <div>
                     <img
-                      src="./square-instagram.svg"
-                      alt="icon"
+                      src="{{ url_for('static', filename='square-instagram.svg') }}"
+                      alt="image"
                       class="icon"
                     />Instagram Link
                   </div>
@@ -271,7 +281,11 @@
     <!-- mainpage -->
     <div class="container">
       <div class="search_area">
-        <img src="magnifying-glass-solid.svg" alt="icon" class="mag_Icon" />
+        <img
+          src="{{ url_for('static', filename='magnifying-glass-solid.svg') }}"
+          alt="icon"
+          class="mag_Icon"
+        />
         <input
           class="search_input"
           type="text"
@@ -280,30 +294,38 @@
       </div>
 
       <div class="card_container" onclick="handleModalOpen()">
+        {% for db in db_all %}
         <div class="user_card">
-          <img class="profile_img" src="./icons-profile.png" />
-          <div class="profile_name">name</div>
+          <img
+            class="profile_img"
+            src="{{ url_for('static', filename='icons-profile.png') }}"
+          />
+          <div class="profile_name">{{db['name']}}</div>
           <div class="profile_container">
-            <div><img src="github.svg" alt="icon" class="icon" />github</div>
-            <div><img src="blogger.svg" alt="icon" class="icon" />blog</div>
             <div>
-              <img src="envelope-solid.svg" alt="icon" class="icon" />email
+              <img
+                src="{{ url_for('static', filename='github.svg') }}"
+                alt="icon"
+                class="icon"
+              />{{db['github']}}
+            </div>
+            <div>
+              <img
+                src="{{ url_for('static', filename='blogger.svg') }}"
+                alt="icon"
+                class="icon"
+              />{{db['blog']}}
+            </div>
+            <div>
+              <img
+                src="{{ url_for('static', filename='envelope-solid.svg') }}"
+                alt="icon"
+                class="icon"
+              />{{db['email']}}
             </div>
           </div>
         </div>
-
-        {% for db in db_all %}
-        <div class="user_card">
-          <img class="profile_img" src="" />
-          <div class="profile_container">
-            <div><b>name</b> {{db['name']}}</div>
-            <div><b>github</b> {{db['github']}}</div>
-            <div><b>blog</b> {{db['blog']}}</div>
-            <div><b>email</b> {{db['email']}}</div>
-          </div>
-        </div>
         {% endfor %}
-
       </div>
     </div>
   </body>
