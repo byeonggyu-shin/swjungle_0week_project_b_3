@@ -119,7 +119,17 @@
 
       function handleLoginBtn() {
         console.log("로그인 버튼 클릭");
+        let userId = $("#userId").val();
+        $.ajax({
+            type: "GET",    // 왜 그런지는 모르겠으나 요청타입이 "GET"이고 
+            url: "/",       // url이 "/"일 때만 페이지 리다이렉트가 된다.
+            data: {'userId':userId},
+            success: function (response) {
+                window.location.href = "/user/get";
+            }
+        })
       }
+      
       function handleSignUpBtn() {
         console.log("회원가입 버튼 클릭");
 

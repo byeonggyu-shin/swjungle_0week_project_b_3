@@ -292,25 +292,18 @@
           </div>
         </div>
 
+        {% for db in db_all %}
         <div class="user_card">
           <img class="profile_img" src="" />
           <div class="profile_container">
-            <div>name</div>
-            <div>github</div>
-            <div>blog</div>
-            <div>email</div>
+            <div><b>name</b> {{db['name']}}</div>
+            <div><b>github</b> {{db['github']}}</div>
+            <div><b>blog</b> {{db['blog']}}</div>
+            <div><b>email</b> {{db['email']}}</div>
           </div>
         </div>
+        {% endfor %}
 
-        <div class="user_card">
-          <img class="profile_img" src="" />
-          <div class="profile_container">
-            <div>name</div>
-            <div>github</div>
-            <div>blog</div>
-            <div>email</div>
-          </div>
-        </div>
       </div>
     </div>
   </body>

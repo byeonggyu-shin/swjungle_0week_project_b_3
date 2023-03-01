@@ -1,5 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
+import os
+from time import time, gmtime
 
 app = Flask(__name__)
 
@@ -7,31 +9,26 @@ app = Flask(__name__)
 client = MongoClient('localhost', 27017) 
 db = client.team_3
 
-# 로그인 페이지
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# # 메인페이지 
-# @app.route('/main')
-# def mainpage():
-#     return render_template('mainpage.html')
 #로그인
-@app.route('/users/me', methods=['GET', 'POST'])
-def login(userId):
-    if request.method == 'POST':
-        db.userslog.insert_one({'userId':userId}, {'time':gmtime(time())})
+@app.route('/user/me', methods=['GET', 'POST'])
+def login():
+    userId = request.form('userId')
+    db.userslog.insert_one({'userId':userId}, {'time':gmtime(time())})
+    # return jsonify({'mgs':db.userlog.find({})})
 
 #회원가입
 @app.route('/user/sign_in', methods=['POST'])
-# def signup(userId,pw,name):
-def signup():
-   count = len(list(db.users.find({})))
-   name = request.form['name']
-   userId = request.form['userId']
-   pw = request.form['pw']
+def signup(userId, pw, name):
+    count = len(db.users.find({}))
+    name = request.form['name']
+    userId = request.form['userId']
+    pw = request.form['pw']
 
-   if count == 0: 
+    if count == 0:
         db.users.insert_one({'_id':0, 'userId':userId, 
                              'password':pw, 'name':name,
                              'github':'', 'insta':'',
@@ -40,20 +37,21 @@ def signup():
                              'about':'', 'blog':''})    
         count += 1
         
-   else:
+    else:
         db.users.insert_one({'_id':count, 'userId':userId, 
                              'password':pw, 'name':name,
                              'github':'', 'insta':'',
                              'twitter':'', 'intro':'',
                              'phone':'', 'where':'',
-                             'about':'', 'blog':''})  
+                             'about':'', 'blog':''}) 
         count += 1
-   return jsonify({'result': 'success'}) 
+    return jsonify({'result': 'success'}) 
+        
 #팀원 전체 조회
 @app.route('/user/get', methods=['GET'])
 def get_all(name=None):
-    db.users.find({})
-    return render_template('hello.html', name=name)
+    db_all = db.users.find({})
+    return render_template('mainpage.html', db_all=db_all)
 #상세 정보 조회
 @app.route('/user/d_get', methods=['GET'])
 def get_sub(_id):
