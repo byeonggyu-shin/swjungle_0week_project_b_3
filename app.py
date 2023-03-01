@@ -31,7 +31,7 @@ def signup():
    else:
         db.users.insert_one({'_id':count, 'userId':userId, 
                              'password':pw, 'name':name,
-                             'github':'', 'insta':'',
+                             'github':'', 'email':'', 'insta':'',
                              'about':'', 'blog':''})  
         count += 1
    return jsonify({'result': 'success'}) 
@@ -66,25 +66,34 @@ def mainpage():
     else:
         return redirect(url_for('login'))
     
-#팀원 전체 조회
-@app.route('/user/get', methods=['GET'])
-def get_all(name=None):
-    db_all = db.users.find({})
-    return render_template('mainpage.html', db_all=db_all)
-
 #상세 정보 조회
-@app.route('/user/d_get', methods=['GET'])
+@app.route('/userinfo', methods=['GET'])
 def get_sub(_id):
     return db.users.find({'_id':_id})
+
 #프로필 수정
-@app.route('/user/<userId>/fix_profile', methods=['POST'])
-def update(userId, name, github, email, about, blog, insta):
-    db.users.update({'userId':userId}, {{'name':name,
+@app.route('/useinfo/edit', methods=['POST'])
+def update():
+
+    id = request.form['userId']
+    name = request.form['name']
+    github = request.form['github']
+    email = request.form['email']
+    about = request.form['about']
+    blog = request.form['blog']
+    insta = request.form['insta']
+
+    print(id)
+    print(name)
+    print(insta)
+    db.users.update_one({'_id': id}, {'$set': {'name':name,
                                           'github':github,
                                           'email':email,
                                           'about':about,
                                           'blog':blog,
-                                          'insta':insta}})
+                                          'insta':insta}}
+                                          )
+    return jsonify({'result': 'success'}) 
 #프로필 삭제
 @app.route('/user/delete', methods=['POST'])
 def hello(id):
