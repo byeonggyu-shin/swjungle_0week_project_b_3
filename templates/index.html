@@ -4,12 +4,18 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="style.css" /> -->
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
     />
 
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <!-- <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-1.12.4.min.js"
+    ></script>
+    <script type="text/javascript" src="./jquery.cookie.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <title>Searching for jungle 6th</title>
     <style>
@@ -135,17 +141,21 @@
 
         let user_ID = $("#login_user_ID").val();
         let user_PW = $("#login_user_PW").val();
+        console.log(user_ID)
 
         $.ajax({
           type: "POST",
           url: "/users/me",
-          data: { id_give: user_ID, pw_give: user_PW },
+          data: { userId: user_ID, pw: user_PW },
           success: function (response) {
+            console.log(response)
             if (response["result"] == "success") {
+              // 로그인에 성공하면 token을 쿠키에 저장!!!
+              $.cookie('mytoken', response['token'])
               alert("로그인 완료");
-              window.location.href = "/user/get";
+              window.location.href = "/"
             } else {
-              alert("서버 오류!");
+              alert(response['msg']);
             }
           },
         });
@@ -206,9 +216,9 @@
           <div class="login_title">Welcome To Jungle</div>
           <form class="login_form" id="loginForm">
             <div>ID</div>
-            <input class="login_input" type="text" />
+            <input class="login_input" type="text" id="login_user_ID" />
             <div>Password</div>
-            <input class="login_input" type="password" />
+            <input class="login_input" type="password" id="login_user_PW" />
           </form>
           <div class="button_container">
             <button
