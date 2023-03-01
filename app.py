@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import os
 from time import time, gmtime
 
+app = Flask(__name__)
+
 #Atlas DB 접속
 client = MongoClient('localhost', 27017) 
 db = client.team_3
