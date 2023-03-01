@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Searching for jungle 6th</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
     <!-- Google Font -->
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
     />
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
     <title>Searching for jungle 6th</title>
     <style>
@@ -39,6 +39,7 @@
         background: transparent;
         background-color: transparent;
       }
+
       .container {
         display: flex;
         margin-left: auto;
@@ -152,8 +153,11 @@
         display: flex;
         flex-direction: column;
         padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+        font-weight: 600;
       }
-
+      #detail_modal_window,
+      #edit_modal_window {
+      }
       .modal_close_btn {
         margin-left: auto;
         background-color: transparent;
@@ -205,11 +209,31 @@
         height: 25px;
         text-align: ;
       }
+      #modal_editmod_btn {
+        margin-left: auto;
+      }
       .modal_edit_btn {
+        margin-left: auto;
+      }
+      .modal_edti_btn_container {
         margin-left: auto;
       }
       .hidden_option {
         display: none;
+      }
+      .show_option {
+        display: block;
+      }
+      .modal_edit_about_me {
+      }
+      .modal_edit_textarea {
+        width: 100%;
+        height: 8rem;
+        border: none;
+        resize: none;
+      }
+      .edit_btn_container {
+        margin-left: auto;
       }
     </style>
     <script>
@@ -218,10 +242,70 @@
         document
           .getElementById("profile_modal")
           .classList.remove("hidden_option");
+        // if (id === localStorage.getItem.id) {
+        //   document
+        //     .getElementById("modal_editmod_btn")
+        //     .classList.remove("hidden_option");
+        // }
       }
       function handleModalClose() {
         console.log("모달 닫기 클릭");
         document.getElementById("profile_modal").className = "hidden_option";
+
+        document
+          .getElementById("edit_modal_window")
+          .classList.remove("hidden_option");
+
+        document
+          .getElementById("detail_modal_window")
+          .classList.remove("hidden_option");
+
+        document.getElementById("edit_modal_window").className =
+          "hidden_option";
+      }
+
+      function handleEditBtn() {
+        console.log("수정버튼 클릭");
+        document.getElementById("detail_modal_window").className =
+          "hidden_option";
+        document
+          .getElementById("edit_modal_window")
+          .classList.remove("hidden_option");
+      }
+
+      function handleEditCancleBtn() {
+        console.log("취소 버튼 클릭");
+        document.getElementById("edit_modal_window").className =
+          "hidden_option";
+        document
+          .getElementById("detail_modal_window")
+          .classList.remove("hidden_option");
+      }
+
+      function handleEditProfile() {
+        let user_name = $("#user_name").val();
+        let user_github = $("#user_github").val();
+        let user_email = $("#user_email").val();
+        let user_about_me = $("#user_about_me").val();
+        let user_blog = $("#user_blog").val();
+        let user_insta = $("#user_insta").val();
+
+        if (user_name.length === 0) {
+          return alert("이름을 입력해 주세요");
+        }
+        $.ajax({
+          type: "POST",
+          url: "/user/<userId>/fix_profile",
+          data: { userId: ,name: user_name, github: user_github, email: user_email, about: user_about_me, blog: user_blog, insta: user_insta},
+          success: function (response) {
+            if (response["result"] == "success") {
+              alert("회원 정보 수정 완료");
+              handleEditCancleBtn();
+            } else {
+              alert(response["msg"]);
+            }
+          },
+        });
       }
     </script>
   </head>
@@ -229,56 +313,131 @@
     <!--detail profile modal -->
     <div class="hidden_option" id="profile_modal">
       <div class="modal_container">
-        <div class="modal_window">
-          <button class="modal_close_btn" onclick="handleModalClose()">
-            X
-          </button>
-          <div class="modal_contant">
-            <div class="modal_title">Detail Profile</div>
-            <div class="modal_user_info">
-              <div class="modal_detail_info">
-                <div>
-                  <img
-                    class="modal_profile_img"
-                    src="{{ url_for('static',
+        <!-- detail -->
+        <div id="detail_modal_window">
+          <div class="modal_window">
+            <button class="modal_close_btn" onclick="handleModalClose()">
+              X
+            </button>
+            <div class="modal_contant">
+              <div class="modal_title">Detail Profile</div>
+              <div class="modal_user_info">
+                <div class="modal_detail_info">
+                  <div>
+                    <img
+                      class="modal_profile_img"
+                      src="{{ url_for('static',
                   filename='icons-profile.png') }}"
-                    alt="image"
-                  />
-                </div>
-                <div class="modal_user_detail_info">
-                  <div>name</div>
-                  <div>gitthub</div>
-                  <div>email</div>
-                </div>
-              </div>
-              <div class="modal_about_me">about me</div>
-              <div class="modal_social_profile">
-                <div>Social Profile</div>
-                <div class="modal_sns_link">
-                  <div>
-                    <img
-                      src="{{ url_for('static', filename='blogger.svg') }}"
-                      alt="icon"
-                      class="icon"
-                    />
-                    Blog
-                  </div>
-                  <div>
-                    <img
-                      src="{{ url_for('static', filename='square-instagram.svg') }}"
                       alt="image"
-                      class="icon"
-                    />Instagram Link
+                    />
+                  </div>
+                  <div class="modal_user_detail_info">
+                    <div>name</div>
+                    <div>gitthub</div>
+                    <div>email</div>
+                  </div>
+                </div>
+                <div class="modal_about_me">about me</div>
+                <div class="modal_social_profile">
+                  <div>Social Profile</div>
+                  <div class="modal_sns_link">
+                    <div>
+                      <img
+                        src="{{ url_for('static', filename='blogger.svg') }}"
+                        alt="icon"
+                        class="icon"
+                      />
+                      Blog
+                    </div>
+                    <div>
+                      <img
+                        src="{{ url_for('static', filename='square-instagram.svg') }}"
+                        alt="image"
+                        class="icon"
+                      />Instagram Link
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <!-- <div class="hidden_option" id="modal_editmod_btn"> -->
+            <div id="modal_editmod_btn">
+              <button class="modal_edit_btn" onclick="handleEditBtn()">
+                EDIT
+              </button>
+            </div>
           </div>
-          <button class="modal_edit_btn">EDIT</button>
         </div>
+        <!-- edit mod modal -->
+        <div class="hidden_option" id="edit_modal_window">
+          <div class="modal_window">
+            <button class="modal_close_btn" onclick="handleModalClose()">
+              X
+            </button>
+            <div class="modal_contant">
+              <div class="modal_title">Edit Profile</div>
+              <div class="modal_user_info">
+                <div class="modal_detail_info">
+                  <div>
+                    <img
+                      class="modal_profile_img"
+                      src="{{ url_for('static',
+                  filename='icons-profile.png') }}"
+                      alt="image"
+                    />
+                  </div>
+                  <div class="modal_user_detail_info">
+                    <input id="edit_name" />
+                    <input id="edit_github" />
+                    <input id="edit_email" />
+                  </div>
+                </div>
+                <div class="modal_edit_about_me">
+                  <div>about me</div>
+                  <textarea
+                    class="modal_edit_textarea"
+                    id="edit_about_me"
+                  ></textarea>
+                </div>
+                <div class="modal_social_profile">
+                  <div>Social Profile</div>
+                  <div class="modal_sns_link">
+                    <div>
+                      <img
+                        src="{{ url_for('static', filename='blogger.svg') }}"
+                        alt="icon"
+                        class="icon"
+                      />
+                      <input id="edit_blog" />
+                    </div>
+                    <div>
+                      <img
+                        src="{{ url_for('static', filename='square-instagram.svg') }}"
+                        alt="image"
+                        class="icon"
+                      />
+                      <input id="edit_insta" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="edit_btn_container">
+              <button class="modal_edit_btn" onclick="handleEditCancleBtn()">
+                Cancel
+              </button>
+              <button class="modal_edit_btn" onclick="handleEditProfile()">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+        <!--  -->
       </div>
     </div>
+
     <!-- mainpage -->
+
     <div class="container">
       <div class="search_area">
         <img

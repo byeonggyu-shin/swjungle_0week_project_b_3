@@ -42,7 +42,7 @@ def signup():
                              'about':'', 'blog':''})    
         count += 1
         
-   else:
+
         db.users.insert_one({'_id':count, 'userId':userId, 
                              'password':pw_hash, 'name':name,
                              'github':'', 'insta':'',
@@ -85,13 +85,11 @@ def get_sub(_id):
     return db.users.find({'_id':_id})
 #프로필 수정
 @app.route('/user/<userId>/fix_profile', methods=['POST'])
-def update(userId, name, phone, github, email,
-            where, about, blog, insta):
+def update(userId, name, phone, github, email, about, blog, insta):
     db.users.update({'userId':userId}, {{'name':name,
                                           'phone':phone,
                                           'github':github,
                                           'email':email,
-                                          'where':where,
                                           'about':about,
                                           'blog':blog,
                                           'insta':insta}})
