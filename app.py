@@ -46,7 +46,7 @@ def login():
 
         # MongoDB에서 사용자 정보 찾기
         user = db.users.find_one({'userId': userId, 'password': password})
-
+        
         if user:
             # 로그인 정보를 세션에 저장
             session['userId'] = userId

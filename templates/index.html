@@ -149,8 +149,10 @@
           data: { userId: user_ID, pw: user_PW },
           success: function (response) {
             console.log(response);
+            localStorage.setItem("userId", response["userId"]);
             if (response["result"] == "success") {
               // 로그인에 성공하면 리다이렉트
+
               window.location.href = "/mainpage";
             } else {
               alert(response["msg"]);
