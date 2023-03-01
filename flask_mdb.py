@@ -19,16 +19,16 @@ def bulletin_write():
 
         if email == "":
             flash("Please Input EMAIL")
-            return render_template("login.html")
+            return render_template("index2.html")
         elif pw == "":
             flash("Please Input PW")
-            return render_template("login.html")
+            return render_template("index2.html")
         
         signup = mongo.db.signup
         check_cnt = signup.count_documents({"email": email})
         if check_cnt > 0:
             flash("It is a registered email")
-            return render_template("login.html")
+            return render_template("index2.html")
         
         to_db = {
             "email": email,
@@ -40,9 +40,9 @@ def bulletin_write():
             print(_)
         
         flash("Thanks for your signup")
-        return render_template("login.html")
+        return render_template("index2.html")
     else:
-        return render_template("login.html")
+        return render_template("index2.html")
 
 if __name__ == "__main__":
     web_bulletin.run(host='0.0.0.0', debug=True, port=9999)
