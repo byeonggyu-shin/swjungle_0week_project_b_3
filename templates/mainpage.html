@@ -115,6 +115,17 @@
         align-items: flex-start;
         margin-bottom: 1.5rem;
       }
+      .profile_content {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        margin-top: 0.2rem;
+      }
+      .profile_detail_content{
+        width: 80%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
       .mag_Icon {
         width: 3rem;
         height: 3rem;
@@ -181,17 +192,28 @@
       .modal_detail_info {
         display: flex;
         flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+      }
+      .modal_img_container{
+        width:40%;
       }
       .modal_profile_img {
         width: 200px;
         height: 200px;
-        padding: 1.5rem;
+        padding: 1.5rem 0;
         margin-right: 2.5rem;
       }
       .modal_user_detail_info {
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
+        width: 50%;
+      }
+      .user_info_content {
+        /* width: 90%; */
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .modal_about_me {
         height: 8rem;
@@ -201,10 +223,24 @@
 
       .modal_sns_link {
         display: flex;
-        justify-content: space-around;
+        /* justify-content: space-around; */
         flex-direction: row;
         margin: 1rem 0;
+        width: 100%;
+        overflow: hidden;
+
       }
+      .sns_info_contents {
+        width: 50%;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        }
+      .sns_info_content{
+        
+        overflow: hidden;
+        text-overflow: ellipsis;
+        }
       .modal_icon {
         width: 25px;
         height: 25px;
@@ -230,6 +266,7 @@
       .modal_edit_textarea {
         width: 100%;
         height: 8rem;
+        font-size: 1.5rem;
         border: none;
         resize: none;
       }
@@ -248,6 +285,8 @@
         margin: 1rem 0;
         border-bottom: 3px solid #a8c5d2;
       }
+
+
     </style>
     <script>
        $(document).ready(function () {
@@ -304,6 +343,8 @@
   
         if (user_name.length === 0) {
           return alert("이름을 입력해 주세요");
+        } else if (user_about_me.length > 300) {
+          return alert("소개글은 300자 이하로 작성해 주세요.");
         }
         $.ajax({
           type: "POST",
@@ -313,6 +354,7 @@
             if (response["result"] == "success") {
               alert("회원 정보 수정 완료");
               location.reload();
+              handleModalOpen(idx)
             } else {
               alert(response["msg"]);
             }
@@ -349,26 +391,27 @@
           />
           <div class="profile_name">{{db['name']}}</div>
           <div class="profile_container">
-            <div>
+            <div class="profile_content">
               <img
                 src="{{ url_for('static', filename='github.svg') }}"
                 alt="icon"
                 class="icon"
-              />{{db['github']}}
+              />
+              <div class="profile_detail_content">{{db['github']}}</div>
             </div>
-            <div>
+            <div class="profile_content">
               <img
                 src="{{ url_for('static', filename='blogger.svg') }}"
                 alt="icon"
                 class="icon"
-              />{{db['blog']}}
+              /><div class="profile_detail_content">{{db['blog']}}</div>
             </div>
-            <div>
+            <div class="profile_content">
               <img
                 src="{{ url_for('static', filename='envelope-solid.svg') }}"
                 alt="icon"
                 class="icon"
-              />{{db['email']}}
+              /><div class="profile_detail_content">{{db['email']}}</div>
             </div>
           </div>
         </div>
@@ -388,7 +431,7 @@
                   <div class="modal_title">Detail Profile</div>
                   <div class="modal_user_info">
                     <div class="modal_detail_info">
-                      <div>
+                      <div class="modal_img_container">
                         <img
                           class="modal_profile_img"
                           src="{{ url_for('static',
@@ -397,9 +440,9 @@
                         />
                       </div>
                       <div class="modal_user_detail_info">
-                        <div>{{db['name']}}</div>
-                        <div>{{db['github']}}</div>
-                        <div>{{db['email']}}</div>
+                        <div class="user_info_content">{{db['name']}}</div>
+                        <div class="user_info_content">{{db['github']}}</div>
+                        <div class="user_info_content">{{db['email']}}</div>
                       </div>
                     </div>
                     <div class="modal_about_me">
@@ -408,20 +451,22 @@
                     <div class="modal_social_profile">
                       <div>Social Profile</div>
                       <div class="modal_sns_link">
-                        <div>
+                        <div class="sns_info_contents">
                           <img
                             src="{{ url_for('static', filename='blogger.svg') }}"
                             alt="icon"
                             class="icon"
                           />
-                          {{db['blog']}}
+                          <div class="sns_info_content">{{db['blog']}}</div>
+                          
                         </div>
-                        <div>
+                        <div class="sns_info_contents">
                           <img
                             src="{{ url_for('static', filename='square-instagram.svg') }}"
                             alt="image"
                             class="icon"
-                          />{{db['insta']}}
+                          />
+                          <div class="sns_info_content">{{db['insta']}}</div>
                         </div>
                       </div>
                     </div>
